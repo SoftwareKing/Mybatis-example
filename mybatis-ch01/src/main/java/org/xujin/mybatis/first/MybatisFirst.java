@@ -15,165 +15,169 @@ import org.xujin.mybatis.entity.User;
 
 /**
  * 
- **/
+ * @ClassName: MybatisFirst
+ * @Description: TODO
+ * @author Xu,Jin Software_King@qq.com
+ * @date 2015-12-20 下午8:45:51
+ * @Website http://www.xujin.org
+ * 
+ */
 public class MybatisFirst {
 
-	// 会话工厂
-	private SqlSessionFactory sqlSessionFactory;
+  // 会话工厂
+  private SqlSessionFactory sqlSessionFactory;
 
+  // 创建工厂
+  @Before
+  public void init() throws IOException {
 
-	// 创建工厂
-	@Before
-	public void init() throws IOException {
+    // 配置文件（SqlMapConfig.xml）
+    String resource = "SqlMapConfig.xml";
 
-		// 配置文件（SqlMapConfig.xml）
-		String resource = "SqlMapConfig.xml";
+    // 加载配置文件到输入 流
+    InputStream inputStream = Resources.getResourceAsStream(resource);
 
-		// 加载配置文件到输入 流
-		InputStream inputStream = Resources.getResourceAsStream(resource);
+    // 创建会话工厂
+    sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 
-		// 创建会话工厂
-		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+  }
 
-	}
+  // 测试根据id查询用户(得到单条记录)
+  @Test
+  public void testFindUserById() {
 
-	// 测试根据id查询用户(得到单条记录)
-	@Test
-	public void testFindUserById() {
+    // 通过sqlSessionFactory创建sqlSession
 
-		// 通过sqlSessionFactory创建sqlSession
+    SqlSession sqlSession = sqlSessionFactory.openSession();
 
-		SqlSession sqlSession = sqlSessionFactory.openSession();
+    // 通过sqlSession操作数据库
+    // 第一个参数：statement的位置，等于namespace+statement的id
+    // 第二个参数：传入的参数
+    User user = null;
+    try {
+      user = sqlSession.selectOne("test.findUserById", 1);
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      // 关闭sqlSession
+      sqlSession.close();
+    }
 
-		// 通过sqlSession操作数据库
-		// 第一个参数：statement的位置，等于namespace+statement的id
-		// 第二个参数：传入的参数
-		User user = null;
-		try {
-			user = sqlSession.selectOne("test.findUserById", 1);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			// 关闭sqlSession
-			sqlSession.close();
-		}
+    System.out.println(user);
 
-		System.out.println(user);
+  }
 
-	}
+  // 测试根据id查询用户(得到单条记录)
+  @Test
+  public void testFindUserByName() {
 
-	// 测试根据id查询用户(得到单条记录)
-	@Test
-	public void testFindUserByName() {
+    // 通过sqlSessionFactory创建sqlSession
 
-		// 通过sqlSessionFactory创建sqlSession
+    SqlSession sqlSession = sqlSessionFactory.openSession();
 
-		SqlSession sqlSession = sqlSessionFactory.openSession();
+    // 通过sqlSession操作数据库
+    // 第一个参数：statement的位置，等于namespace+statement的id
+    // 第二个参数：传入的参数
+    List<User> list = null;
+    try {
+      list = sqlSession.selectList("test.findUserByName", "小明");
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      // 关闭sqlSession
+      sqlSession.close();
+    }
 
-		// 通过sqlSession操作数据库
-		// 第一个参数：statement的位置，等于namespace+statement的id
-		// 第二个参数：传入的参数
-		List<User> list = null;
-		try {
-			list = sqlSession.selectList("test.findUserByName", "小明");
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			// 关闭sqlSession
-			sqlSession.close();
-		}
+    System.out.println(list.get(0).getUsername());
 
-		System.out.println(list.get(0).getUsername());
+  }
 
-	}
+  // 测试根据id查询用户(得到单条记录)
+  @Test
+  public void testInsertUser() {
 
-	// 测试根据id查询用户(得到单条记录)
-	@Test
-	public void testInsertUser() {
+    // 通过sqlSessionFactory创建sqlSession
 
-		// 通过sqlSessionFactory创建sqlSession
+    SqlSession sqlSession = sqlSessionFactory.openSession();
 
-		SqlSession sqlSession = sqlSessionFactory.openSession();
+    // 通过sqlSession操作数据库
+    // 创建插入数据对象
+    User user = new User();
+    user.setUsername("浪子燕青");
+    user.setAddress("河南郑州");
+    user.setBirthday(new Date());
+    user.setSex("1");
 
-		// 通过sqlSession操作数据库
-		// 创建插入数据对象
-		User user = new User();
-		user.setUsername("浪子燕青");
-		user.setAddress("河南郑州");
-		user.setBirthday(new Date());
-		user.setSex("1");
+    try {
+      sqlSession.insert("test.insertUser", user);
+      // 需要提交事务
+      sqlSession.commit();
 
-		try {
-			sqlSession.insert("test.insertUser", user);
-			// 需要提交事务
-			sqlSession.commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      // 关闭sqlSession
+      sqlSession.close();
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			// 关闭sqlSession
-			sqlSession.close();
-		}
+    System.out.println("用户的id=" + user.getId());
 
-		System.out.println("用户的id=" + user.getId());
+  }
 
-	}
+  // 测试根据id删除用户(得到单条记录)
+  @Test
+  public void testDeleteUser() {
 
-	// 测试根据id删除用户(得到单条记录)
-	@Test
-	public void testDeleteUser() {
+    // 通过sqlSessionFactory创建sqlSession
 
-		// 通过sqlSessionFactory创建sqlSession
+    SqlSession sqlSession = sqlSessionFactory.openSession();
 
-		SqlSession sqlSession = sqlSessionFactory.openSession();
+    // 通过sqlSession操作数据库
+    try {
+      sqlSession.delete("test.deleteUser", 35);
+      // 需要提交事务
+      sqlSession.commit();
 
-		// 通过sqlSession操作数据库
-		try {
-			sqlSession.delete("test.deleteUser", 35);
-			// 需要提交事务
-			sqlSession.commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      // 关闭sqlSession
+      sqlSession.close();
+    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			// 关闭sqlSession
-			sqlSession.close();
-		}
+  }
 
+  // 测试根据id更新用户(得到单条记录)
+  @Test
+  public void testUpdateUser() {
 
-	}
+    // 通过sqlSessionFactory创建sqlSession
 
-	// 测试根据id更新用户(得到单条记录)
-	@Test
-	public void testUpdateUser() {
+    SqlSession sqlSession = sqlSessionFactory.openSession();
 
-		// 通过sqlSessionFactory创建sqlSession
+    // 通过sqlSession操作数据库
+    // 创建更新数据对象，要求必须包括 id
+    User user = new User();
+    user.setId(35);
+    user.setUsername("燕青");
+    user.setAddress("河南郑州");
+    // user.setBirthday(new Date());
+    user.setSex("1");
 
-		SqlSession sqlSession = sqlSessionFactory.openSession();
+    try {
+      sqlSession.update("test.updateUser", user);
+      // 需要提交事务
+      sqlSession.commit();
 
-		// 通过sqlSession操作数据库
-		// 创建更新数据对象，要求必须包括 id
-		User user = new User();
-		user.setId(35);
-		user.setUsername("燕青");
-		user.setAddress("河南郑州");
-//		user.setBirthday(new Date());
-		user.setSex("1");
+    } catch (Exception e) {
+      e.printStackTrace();
+    } finally {
+      // 关闭sqlSession
+      sqlSession.close();
+    }
 
-		try {
-			sqlSession.update("test.updateUser", user);
-			// 需要提交事务
-			sqlSession.commit();
+    System.out.println("用户的id=" + user.getId());
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			// 关闭sqlSession
-			sqlSession.close();
-		}
-
-		System.out.println("用户的id=" + user.getId());
-
-	}
+  }
 
 }
