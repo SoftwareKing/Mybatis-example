@@ -2,9 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.xujin.mybtais</groupId>
   <artifactId>mybatis-dao</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <parent>
@@ -13,7 +11,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../mybatis-parent/pom.xml</relativePath>
 	</parent>
-	<name>mybatis-ch01</name>
+	<name>mybatis-dao</name>
 	<url>http://www.xujin.org</url>
 	<dependencies>
 		<dependency>

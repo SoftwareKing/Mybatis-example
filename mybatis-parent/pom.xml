@@ -7,6 +7,8 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>../mybatis-ch01</module>
+		<module>../mybatis-dao</module>
+		<module>../mybatis-layload</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
