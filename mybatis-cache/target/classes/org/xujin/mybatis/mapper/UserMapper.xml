@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- namespace命名空间，为了对sql语句进行隔离，方便管理 ，mapper开发dao方式，使用namespace有特殊作用 mapper代理开发时将namespace指定为mapper接口的全限定名 -->
 <mapper namespace="org.xujin.mybatis.mapper.UserMapper">
      <!-- 开启二级缓存 -->
- 	<!-- 单位：毫秒 -->
+ 	<!-- 单位：毫秒 ,Mybatis与EHcache的整合-->
  	<cache type="org.mybatis.caches.ehcache.EhcacheCache">
  		<property name="timeToIdleSeconds" value="12000"/>
         <property name="timeToLiveSeconds" value="3600"/>
