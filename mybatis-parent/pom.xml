@@ -9,6 +9,7 @@
 		<module>../mybatis-ch01</module>
 		<module>../mybatis-dao</module>
 		<module>../mybatis-layload</module>
+		<module>../mybatis-cache</module>
 	</modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -51,6 +52,16 @@
 				<version>${ognl.version}</version>
 				<!-- <scope>provided</scope> -->
 				<!-- <optional>true</optional> -->
+			</dependency>
+			<dependency>
+				<groupId>net.sf.ehcache</groupId>
+				<artifactId>ehcache-core</artifactId>
+				<version>2.6.9</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis-ehcache</artifactId>
+				<version>1.0.2</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
@@ -104,12 +115,12 @@
 				<artifactId>mybatis-spring</artifactId>
 				<version>${mybatisspring.version}</version>
 			</dependency>
-			<!--Mysql数据库  -->
+			<!--Mysql数据库 -->
 			<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.version}</version>
-		</dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>

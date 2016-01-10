@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.xujin.mybatis.mapper.OrdersMapperCustom">
+
+	<!-- 一对一查询延迟加载 的配置 -->
+	<resultMap type="orders" id="orderCustomLazyLoading">
+		<!-- 完成了订单信息的映射配置 -->
+		<!-- id：订单关联用户查询的唯 一 标识 -->
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="number" property="number" />
+		<result column="createtime" property="createtime" />
+		<result column="note" property="note" />
+		<!-- 配置用户信息的延迟加载 select：延迟加载执行的sql所在的statement的id，如果不在同一个namespace需要加namespace 
+			sql：根据用户id查询用户信息 column：关联查询的列 property:将关联查询的用户信息设置到Orders的哪个属性 -->
+		<association property="user"
+			select="org.xujin.mybatis.mapper.UserMapper.findUserById" column="user_id"></association>
+
+
+	</resultMap>
+
+	<!-- 一对一查询延迟加载 开始只查询订单，对用户信息进行延迟加载 -->
+	<select id="findOrderUserListLazyLoading" resultMap="orderCustomLazyLoading">
+		SELECT
+		orders.*
+		FROM
+		orders
+	</select>
+
+</mapper>
+
